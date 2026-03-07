@@ -14,3 +14,8 @@ sdltutorial:  $(SRC)
 
 clean:
 	rm output
+	
+	
+	
+	
+	

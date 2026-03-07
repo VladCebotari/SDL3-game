@@ -1,19 +1,19 @@
 #pragma once
 #include <SDL3/SDL.h>
 #include <string>
-//struct animationType
-//tipul de animatie(run,attack etc) c.string la texture path 
+
 
 
 typedef struct {
     int animationDelay;
     int frames;
+    SDL_Texture* texture;
 }animation;
 
 
 typedef struct {
-    animation data;
-    const char* file;
+    animation idle;
+    animation walk;
 }animationType;
 
 
@@ -23,13 +23,12 @@ class Player
     SDL_Renderer* renderer;
     SDL_FRect src;
     SDL_FRect dest;
-    SDL_Texture* texture;
-    animation idle;
+    animationType animations;
     int speed;
     int currentIndex;
     int lastUpdate;
     float sizeSprite;
-    
+    bool isWalking;
 
     public:
         void draw();
