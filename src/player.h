@@ -3,7 +3,6 @@
 #include <string>
 
 
-
 typedef struct {
     int animationDelay;
     int frames;
@@ -14,6 +13,7 @@ typedef struct {
 typedef struct {
     animation idle;
     animation walk;
+    animation attack;
 }animationType;
 
 
@@ -24,12 +24,18 @@ class Player
     SDL_FRect src;
     SDL_FRect dest;
     animationType animations;
+    animation* currentAnimation;
     int speed;
     int currentIndex;
-    int lastUpdate;
+    Uint64 lastUpdate;
     float sizeSprite;
     bool isWalking;
+    SDL_FlipMode flip;
 
+
+
+    void showAnimation(const animation& animation);
+    void initAnimation();
     public:
         void draw();
         void update ();
@@ -37,8 +43,8 @@ class Player
         
 
         Player(SDL_Renderer* renderer,std::string texturePath);
-        ~Player();
-        
+        ~Player();      
 };
     
     
+

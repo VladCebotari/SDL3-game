@@ -45,7 +45,6 @@ SDL_AppResult SDL_AppIterate(void* appstate){
     player->draw();
     
 
-    
     SDL_RenderPresent(renderer);
     SDL_Delay(16);
     return SDL_APP_CONTINUE;
