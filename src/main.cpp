@@ -17,7 +17,7 @@ SDL_AppResult SDL_AppInit(void **appstate,int argc,char *argv[])
     SDL_Init(SDL_INIT_VIDEO);
     SDL_CreateWindowAndRenderer("First App",1200,800,0,&window,&renderer);
 
-    player = new Player(renderer,"assets/Tiny Swords/Units/Red Units/Warrior/Warrior_Idle.png");
+    player = new Player(renderer);
     
 
     return SDL_APP_CONTINUE;
@@ -32,7 +32,7 @@ SDL_AppResult SDL_AppEvent(void *appstate,SDL_Event* event){
         default:
             break;
     }
-    player->handleEvents();
+    player->handleEvents(event);
     return SDL_APP_CONTINUE;
 }
 

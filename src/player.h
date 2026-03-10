@@ -3,6 +3,12 @@
 #include <string>
 
 
+enum class PlayerState {
+    Idle,
+    Walking,
+    Attacking
+};
+
 typedef struct {
     int animationDelay;
     int frames;
@@ -28,21 +34,20 @@ class Player
     int speed;
     int currentIndex;
     Uint64 lastUpdate;
+    SDL_FlipMode flip;
     float sizeSprite;
     bool isWalking;
-    SDL_FlipMode flip;
-
-
+    PlayerState state;
 
     void showAnimation(const animation& animation);
     void initAnimation();
     public:
         void draw();
         void update ();
-        void handleEvents();
-        
+        void handleEvents(SDL_Event* event);
+        void updateAnimation();
 
-        Player(SDL_Renderer* renderer,std::string texturePath);
+        Player(SDL_Renderer* renderer);
         ~Player();      
 };
     
