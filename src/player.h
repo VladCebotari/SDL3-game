@@ -1,12 +1,13 @@
 #pragma once
 #include <SDL3/SDL.h>
-#include <string>
+
 
 
 enum class PlayerState {
     Idle,
     Walking,
-    Attacking
+    Attacking,
+    Guarding
 };
 
 typedef struct {
@@ -20,6 +21,7 @@ typedef struct {
     animation idle;
     animation walk;
     animation attack;
+    animation guard;
 }animationType;
 
 

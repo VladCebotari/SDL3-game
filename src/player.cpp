@@ -26,6 +26,7 @@ void Player::showAnimation(const animation& newAnimation){
 
         currentIndex = currentIndex % newAnimation.frames;
         src.x = currentIndex * sizeSprite;
+
         currentIndex++;
     }
 }
@@ -39,6 +40,13 @@ void Player::updateAnimation(){
         break;
     case PlayerState::Walking:
         showAnimation(animations.walk);
+        break;
+
+    case PlayerState::Guarding:
+        showAnimation(animations.guard);
+        if(currentIndex == animations.guard.frames){
+            state = PlayerState::Idle;
+        }
         break;
     case PlayerState::Attacking:
         showAnimation(animations.attack);
@@ -72,7 +80,7 @@ void Player::update (){
         flip = SDL_FLIP_HORIZONTAL;
         isWalking = true;
     }    
-     if (state != PlayerState::Attacking) {
+     if (state != PlayerState::Attacking && state != PlayerState::Guarding) {
         if(isWalking){
             state = PlayerState::Walking;
         }
@@ -85,19 +93,43 @@ void Player::update (){
 }
 
 void Player:: handleEvents(SDL_Event* event){
-    if (event->type == SDL_EVENT_MOUSE_BUTTON_DOWN ) {
-        state = PlayerState::Attacking;
-        }
+    switch (event->type)
+    {
+        case SDL_EVENT_MOUSE_BUTTON_DOWN:
+            switch (event->button.button)
+            {
+                case SDL_BUTTON_LEFT:
+                    state = PlayerState::Attacking;
+                    break;
+
+                case SDL_BUTTON_RIGHT:
+                    state = PlayerState::Guarding;
+                    break;
+
+                default:
+                    break;
+            }
+            break;
+        case SDL_EVENT_MOUSE_BUTTON_UP:
+            switch (event->button.button)
+            {
+                case SDL_BUTTON_RIGHT:
+                    state = PlayerState::Idle;
+                    break;
+            }
+
+    default:
+        break;
+    }
+   
 }
-
-
 
 
 void Player::initAnimation(){
     animations.idle = {100,8,IMG_LoadTexture(renderer,"assets/Tiny Swords/Units/Red Units/Warrior/Warrior_Idle.png")};
     animations.walk = {100,6,IMG_LoadTexture(renderer,"assets/Tiny Swords/Units/Red Units/Warrior/Warrior_Run.png")};
-    animations.attack = {120,4,IMG_LoadTexture(renderer,"assets/Tiny Swords/Units/Red Units/Warrior/Warrior_Attack1.png")};
-    
+    animations.attack = {80,4,IMG_LoadTexture(renderer,"assets/Tiny Swords/Units/Red Units/Warrior/Warrior_Attack1.png")};
+    animations.guard = {100,6,IMG_LoadTexture(renderer,"assets/Tiny Swords/Units/Red Units/Warrior/Warrior_Guard.png")};
 }
 
 Player::Player(SDL_Renderer* renderer) : renderer(renderer)
